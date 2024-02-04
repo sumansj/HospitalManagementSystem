@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "Error";
+    Layout = null;
+}
+
+@if(TempData["unhandle"] != null)
+{
+    <h3>An error occured. Please contact administrator suman@gmail.com</h3>
+    <hr />
+    <h3>Exception Details</h3>
+    <div class="alert alert-danger">
+        <h4>Exception Path</h4>
+        @ViewBag.Path
+    </div>
+
+    <div class="alert alert-danger">
+        <h4>Exception Message</h4>
+        @ViewBag.Message
+    </div>
+
+    <div class="alert alert-danger">
+        <h4>Exception StackTrace</h4>
+        @ViewBag.StackTrace
+    </div>
+}
+else
+{
+    <h1>@ViewBag.ErrorMessage</h1>
+    <a asp-action="Index" asp-controller="Home">
+        Click here to go to Home Page
+    </a>
+}

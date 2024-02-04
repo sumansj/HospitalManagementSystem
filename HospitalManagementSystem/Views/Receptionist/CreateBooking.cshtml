@@ -1,0 +1,161 @@
+﻿@model HospitalManagementSystem.Models.Booking
+@{
+    ViewData["Title"] = "CreateBooking";
+    var baseUrl = "https://localhost:44373/";
+}
+
+<head>
+    <style>
+        .custom-margin {
+            margin-left: 300px;
+        }
+        body {
+            background-image: url('/images/image8.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        h3{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    @if (TempData["data"] != null)
+    {
+        <h4>@ViewBag.patientName is already booked for Room No : @ViewBag.roomNo</h4>
+        <a asp-action="CreateBooking" asp-controller="Receptionist">
+            Click here to go Back
+        </a>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-md-8 fs-6">
+                <h3 style="text-align:center">Booking</h3>
+                <form asp-action="BookingSave" asp-controller="Receptionist" method="post" autocomplete="off">
+                    <table class="table table-borderless">
+                        <tr>
+                            <td>
+                                <label asp-for="PatientId" class="control-label fs-6"></label> @*fw-bold class of bootstrap use to add boldness to the text, fs-4 class is use to increase font size*@
+                            </td>
+                            <td>
+                                <input asp-for="PatientId" class="form-control" placeholder="Enter PatientId"
+                                       id="PatientId" />
+                                <span asp-validation-for="PatientId" class="text-danger"></span>
+                            </td>
+                            <td>
+                                <label asp-for="FullName" class="control-label fs-6"></label>
+                            </td>
+                            <td>
+                                <input asp-for="FullName" class="form-control" placeholder="Enter Name"
+                                       id="FullName" readonly />
+                                <span asp-validation-for="FullName" class="text-danger"></span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <label asp-for="Disease" class="control-label fs-6"></label>
+                            </td>
+                            <td>
+                                <input asp-for="Disease" class="form-control" placeholder="Enter Disease"
+                                       id="Disease" readonly />
+                                <span asp-validation-for="Disease" class="text-danger"></span>
+                            </td>
+                            <td>
+                                <label asp-for="Doctors" class="control-label fs-6"></label>
+                            </td>
+                            <td>
+                                <input asp-for="Doctors" class="form-control" placeholder="Enter Doctor"
+                                       id="Doctors" readonly />
+                                <span asp-validation-for="Doctors" class="text-danger"></span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            @*<td>
+                        <label asp-for="UserId" class="control-label fs-6"></label>
+                        </td>*@
+                            <td>
+                                <input asp-for="UserId" class="form-control" placeholder="Enter Doctor"
+                                       id="DoctorsId" hidden />
+                                <span asp-validation-for="UserId" class="text-danger"></span>
+                            </td>
+                            @*<td>
+                        <label asp-for="DischargeDate" class="control-label fs-6"></label>
+                        </td>*@
+                            @*<td>
+                        <input type="date" asp-for="DischargeDate" class="form-control" hidden />
+                        <span asp-validation-for="DischargeDate" class="text-danger"></span>
+                        </td>*@
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <label asp-for="RoomNo" class="control-label fs-6"></label>
+                            </td>
+                            <td>
+                                <select asp-for="RoomNo" class="form-control" asp-items="ViewBag.roomDetails"
+                                        id="RoomNo">
+                                </select>
+                            </td>
+                            <td>
+                                <label asp-for="RoomNo" class="control-label fs-6"></label>
+                            </td>
+                            <td>
+                                <input asp-for="RoomNo" class="form-control" placeholder="Enter RoomNo"
+                                       id="RoomId" readonly />
+                                <span asp-validation-for="RoomNo" class="text-danger"></span>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="mt-3 custom-margin">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="submit" value="Create" class="btn btn-success w-auto" />
+                                <a asp-action="Index" asp-controller="Home" class="btn btn-danger w-auto">
+                                    Cancel
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    }
+    @section ValidationScripts{
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+        <script>
+            $(document).ready(function(){
+                //calling the change function once any changes done for input field with id RoomNo
+                $("#RoomNo").change(function () {
+
+                    var roomNo = $(this).val();
+                    //console.log(roomNo);
+                    $("#RoomId").val(roomNo);                                        
+                });
+
+                //calling this change fucntion once any changes done for patientId field
+                $("#PatientId").change(function () {
+
+                    var patientId = $(this).val();
+                    //console.log(patientId);
+                    var url = "@baseUrl";
+                    //console.log(url);
+
+                    //capturing the patient name, doctor name and disease details based on patient id and autopopulating it
+                    $.post(url + "Patient/GetPatientById", {PatientId : patientId}, function(patientdata){
+                        $("#FullName").val(patientdata.patientName);
+                        $("#Disease").val(patientdata.disease);
+                        $("#Doctors").val(patientdata.doctorName);
+                        $("#DoctorsId").val(patientdata.doctorId);
+                    });
+                });
+            });
+        </script>
+    }
+</body>
+

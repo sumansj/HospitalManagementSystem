@@ -1,0 +1,82 @@
+﻿@model IEnumerable<HospitalManagementSystem.Models.Room>
+@{
+    ViewData["Title"] = "RoomDetails";
+}
+<head>
+    <style>
+        .custom-mt {
+            margin-top: 120px;
+        }
+    </style>
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-6 custom-mt">
+            <div class="col-md-6">
+                <table class="table table-dark table-borderless">
+                    <tr>
+                        <td>
+                            <p class="fs-4">Total Rooms</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="fs-1">@ViewBag.RoomCount</p>
+                        </td>
+                    </tr>
+                </table>
+                <table class="table table-dark table-borderless">
+                    <tr>
+                        <td>
+                            <p class="fs-4">Rooms Available</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="fs-1">@ViewBag.RoomAvailable</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <td>
+                            RoomNo
+                        </td>
+                        <td>
+                            RoomType
+                        </td>
+                        <td>
+                            Available
+                        </td>
+                    </tr>
+                </thead>
+                @foreach (var items in Model)
+                {
+                    <tr>
+                        <td>
+                            @items.RoomNo
+                        </td>
+                        <td>
+                            @items.RoomType
+                        </td>
+                        <td>
+                            @if (@items.IsAvailable)
+                            {
+                                <text>Yes</text>
+                            }
+                            else
+                            {
+                                <text>No</text>
+                            }
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</body>
+

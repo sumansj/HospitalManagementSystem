@@ -1,0 +1,96 @@
+﻿@model HospitalManagementSystem.Models.Doctors
+@{
+    ViewData["Title"] = "GetDoctorDetails";
+}
+<head>
+    <style>
+        body {
+            background-image: url('/images/image3.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        .custom-text{
+            color:firebrick;
+        }
+
+        .custom-margin {
+            margin-left: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h1 style="text-align:center">Doctors</h1>
+            <table class="table table-borderless">
+                <tr>
+                    <td class="custom-text fs-5 fw-bold">
+                        EmployeeId
+                    </td>
+                    <td class="custom-text fs-5 fw-bold">
+                        Doctor Name
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Model.EmployeeId
+                    </td>
+                    <td>
+                        @Model.FullName
+                    </td>
+                </tr>
+                <tr>
+                    <td class="custom-text fs-5 fw-bold">
+                        Date Of Birth
+                    </td>
+                    <td class="custom-text fs-5 fw-bold">
+                        Department
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @ViewBag.Date
+                    </td>
+                    <td>
+                        @ViewBag.Department
+                    </td>
+                </tr>
+                <tr>
+                    <td class="custom-text fs-5 fw-bold">
+                        Mobile
+                    </td>
+                    <td class="custom-text fs-5 fw-bold">
+                        Email
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Model.Mobile
+                    </td>
+                    <td>
+                        @Model.Email
+                    </td>
+                </tr>
+                <tr>
+                    <td class="custom-text fs-5 fw-bold">
+                        Qualification
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Model.Qualification
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <div class="row mt-2 custom-margin">
+                <div class="col-md-6">
+                    <a asp-action="DoctorDetails" asp-controller="Doctor" class="btn btn-dark w-auto">Back</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+

@@ -1,0 +1,111 @@
+﻿@*@model IEnumerable<HospitalManagementSystem.Models.Doctors>*@
+
+@*used this namespace to inject SignInManager class*@
+@using Microsoft.AspNetCore.Identity
+
+@*@inject is used to inject a class into view.*@
+@inject SignInManager<IdentityUser> signInManager
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - HospitalManagementSystem</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/HospitalManagementSystem.styles.css" asp-append-version="true" />
+    <style>
+        .custom-mt {
+            margin-top: 120px;
+        }
+        .headers {
+            height: 70px;
+            padding-top: 5px;
+            background-color: chocolate;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="/images/image7.jpeg" alt="" width="50" height="44" class="d-inline-block align-text-top">
+                    HospitalManagementSystem
+                </a>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav me-auto">
+                        @*to check wheather user is signedin or not*@
+                        @if (signInManager.IsSignedIn(User))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link text-light dropdown-toggle" href="#" id="navbarDropdownMenuLink"
+                                   data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    @User.Identity.Name
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <form method="post" asp-action="Logout" asp-controller="Login">
+                                        <button type="submit" class="nav-link text-dark btn btn-link py-0" style="width:auto">
+                                            @*Used user.Identity.name to get the user name of signedin user*@
+                                            Logout
+                                        </button>
+                                    </form>
+                                </div>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Login">Login</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            <div class="row">
+                <div class="col-md-4 custom-mt">
+                    <h4>Doctor's On Leave</h4>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <td>
+                                    <strong>Name</strong>
+                                </td>
+                                <td>
+                                    <strong>Available Date</strong>
+                                </td>
+                            </tr>
+                        </thead>
+                        @*@foreach (var items in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelitems => items.FullName)
+                                </td>
+                                <td>
+                                    27.Jan.2024
+                                </td>
+                            </tr>
+                        }*@
+                    </table>
+                </div>
+                @RenderBody()
+            </div>
+            
+        </main>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("ValidationScripts", required: false)
+</body>
+</html>

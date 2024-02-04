@@ -1,0 +1,111 @@
+﻿@model IEnumerable<HospitalManagementSystem.Models.Doctors>
+@{
+    ViewData["Title"] = "DoctorDetails";
+    var baseurl = "https://localhost:44373/";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+
+<head>
+    <style>
+        .custom-mt {
+            margin-top: 60px;
+        }
+
+        .custom-margin {
+            margin-left: 300px;
+        }
+
+        body {
+            background-image: url('/images/image3.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+    </style>
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-3">
+        </div>
+        @*<h3 style="text-align:center">Patient Details</h3>*@
+        <div class="col-md-6">
+            <div>
+                <h3 style="text-align:center">Doctor Details</h3>
+                <div>
+                    <table class="table table-hover table-borderless custom-mt" id="details">
+                        <thead>
+                            <tr>
+                                <th>Employee Id</th>
+                                <th>Full Name</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        @foreach (var items in Model)
+                        {
+                            <tbody>
+                                <tr>
+                                    <td id="employeeId">
+                                        @Html.DisplayFor(modelitems => items.EmployeeId)
+                                    </td>
+                                    <td id="doctortName">
+                                        @Html.DisplayFor(modelitems => items.FullName)
+                                    </td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <form asp-action="GetDoctorDetails" asp-controller="Admin" asp-route-id="@items.EmployeeId" method="post" class="btn btn-dark btn-sm">
+                                                <button type="submit" class="btn btn-dark btn-sm">
+                                                    Details
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        }
+                        <tr>
+                            <td>
+                                Active Doctors
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                                @ViewBag.DoctorCount
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div>
+                <form class="d-flex" autocomplete="off">
+                    <input class="form-control me-2" type="search" placeholder="Full Name" id="fullname">
+                    <button class="btn btn-outline-dark" type="button" id="searchbyname">Search</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    @section ValidationScripts{
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+        <script>
+            $(document).ready(function () {
+                //calling the click event once a button click done for searching
+                $("#searchbyname").on("click", function () {
+                    //capturing the name entered for searching
+                    var name = $("#fullname").val();
+                    //looping through each row in the table
+                    $("#details tbody tr").each(function(){
+                        var rowtext = $(this).text();
+                        //show or hide rows based on the search options
+                        $(this).toggle(rowtext.includes(name));
+                    });
+                    //console.log(name);
+
+                });
+            });
+        </script>
+    }
+</body>
+

@@ -1,0 +1,167 @@
+﻿@model HospitalManagementSystem.Models.OPD
+@{
+    ViewData["Title"] = "Home";
+    Layout = "~/Views/Shared/_OPDLayout.cshtml";
+    var baseurl = "https://localhost:44373/";
+}
+<head>
+    <style>
+        .custom-mt {
+            margin-top: 60px;
+        }
+
+        .custom-margin {
+            margin-left: 300px;
+        }
+        body {
+            background-image: url('/images/image3.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+    </style>
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-3 custom-mt">
+            <table class="table table-dark table-borderless">
+                <tr>
+                    <td>
+                        <p class="fs-4">Active Doctors</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="fs-1">@ViewBag.DoctorCount</p>
+                    </td>
+                </tr>
+            </table>
+            <table class="table table-dark table-borderless">
+                <tr>
+                    <td>
+                        <p class="fs-4">Active Patients</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="fs-1">@ViewBag.PatientCount</p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-md-9">
+            <div>
+                <form class="d-flex" autocomplete="off">
+                    <input class="form-control me-2 w-auto" type="search" placeholder="Full Name" id="fullname">
+                    <button class="btn btn-outline-dark" type="button" id="searchbyname">Search</button>
+                </form>
+            </div>
+            <div class="mt-4 invisible" id="records">  @*in bootstrap 5 we use invisible class to hide element and visible class to display element*@
+                <form asp-action="OPDSave" asp-controller="OPD" method="post" autocomplete="off">
+                    <table class="table table-borderless">
+                        <tr>
+                            <td>
+                                <label asp-for="FulName" class="control-label fs-6"></label> @*fw-bold class of bootstrap use to add boldness to the text, fs-4 class is use to increase font size*@
+                            </td>
+                            <td>
+                                <input asp-for="FulName" class="form-control" placeholder="Enter Patient Name"
+                                       id="FullName" readonly/>
+                                <span asp-validation-for="FulName" class="text-danger"></span>
+                            </td>
+                            <td>
+                                <label asp-for="PatientId" class="control-label fs-6"></label> @*fw-bold class of bootstrap use to add boldness to the text, fs-4 class is use to increase font size*@
+                            </td>
+                            <td>
+                                <input asp-for="PatientId" class="form-control" placeholder="Enter PatientId"
+                                       id="PatientId" readonly />
+                                <span asp-validation-for="PatientId" class="text-danger"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label asp-for="Disease" class="control-label fs-6"></label>
+                            </td>
+                            <td>
+                                <input asp-for="Disease" class="form-control" placeholder="Enter Disease"
+                                       id="Disease" readonly />
+                                <span asp-validation-for="Disease" class="text-danger"></span>
+                            </td>
+                            <td>
+                                <label asp-for="Doctors" class="control-label fs-6"></label>
+                            </td>
+                            <td>
+                                <input asp-for="Doctors" class="form-control" placeholder="Enter Doctor"
+                                       id="Doctors" readonly />
+                                <span asp-validation-for="Doctors" class="text-danger"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label asp-for="Departments" class="control-label fs-6"></label>
+                            </td>
+                            <td>
+                                <input asp-for="Departments" class="form-control" placeholder="Enter Department"
+                                       id="Departments" readonly />
+                                <span asp-validation-for="Departments" class="text-danger"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            @*<td>
+                            <label asp-for="UserId" class="control-label fs-6"></label>
+                            </td>
+                            <td>*@
+                                <input asp-for="UserId" class="form-control" placeholder="Enter Doctor"
+                                       id="DoctorsId" hidden/>
+                                <span asp-validation-for="UserId" class="text-danger"></span>
+                            </td>
+                            @*<td>
+                            <label asp-for="DepartmentId" class="control-label fs-6"></label>
+                            </td>*@
+                            <td>
+                                <input asp-for="DepartmentId" class="form-control" placeholder="Enter Department"
+                                       id="DepartmentId" hidden />
+                                <span asp-validation-for="DepartmentId" class="text-danger"></span>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="mt-3 custom-margin">
+                        <div class="form-group">
+                            <input type="submit" value="Create" class="btn btn-success w-auto" />
+                            <a asp-action="Index" asp-controller="Home" class="btn btn-danger w-auto">
+                                Cancel
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    @section ValidationScripts{
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+        <script>
+            $(document).ready(function () {
+                //calling the on click function to change the view after clicking the button
+                $("#searchbyname").on("click", function () {
+                    $("#records").removeClass('invisible');
+                    $("#records").addClass('visible');
+                    var name = $("#fullname").val();
+                    console.log(name);
+                    var urls = "@baseurl";
+
+                    $.post(urls + "Patient/GetPatientByName", { name: name }, function (patientdetails) {
+                        $("#PatientId").val(patientdetails.patientId);
+                        $("#FullName").val(patientdetails.patientName);
+                        $("#Disease").val(patientdetails.patientDisease);
+                        $("#Doctors").val(patientdetails.doctorName);
+                        $("#Departments").val(patientdetails.departmentName);
+                        $("#DoctorsId").val(patientdetails.doctorId);
+                        $("#DepartmentId").val(patientdetails.departmentId);
+                    });
+                });
+            });
+        </script>
+    }
+</body>
+

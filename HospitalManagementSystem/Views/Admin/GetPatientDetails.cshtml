@@ -1,0 +1,167 @@
+﻿@model HospitalManagementSystem.Models.Patients
+@{
+    ViewData["Title"] = "GetPatientDetails";
+}
+
+<head>
+    <style>
+        body {
+            background-image: url('/images/image3.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        .custom-text {
+            color: firebrick;
+        }
+
+        .custom-margin {
+            margin-left: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h1 style="text-align:center">Patient</h1>
+            <table class="table table-borderless">
+                <tr>
+                    <td class="custom-text fs-5 fw-bold">
+                        PatientId
+                    </td>
+                    <td class="custom-text fs-5 fw-bold">
+                        Patient Name
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Model.PatientId
+                    </td>
+                    <td>
+                        @Model.FulName
+                    </td>
+                </tr>
+                <tr>
+                    <td class="custom-text fs-5 fw-bold">
+                        Department
+                    </td>
+                    <td class="custom-text fs-5 fw-bold">
+                        Doctor Name
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @ViewBag.Department
+                    </td>
+                    <td>
+                        @ViewBag.DoctorName
+                    </td>
+                </tr>
+                <tr>
+                    <td class="custom-text fs-5 fw-bold">
+                        Mobile
+                    </td>
+                    <td class="custom-text fs-5 fw-bold">
+                        Email
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Model.Mobile
+                    </td>
+                    <td>
+                        @Model.Email
+                    </td>
+                </tr>
+                <tr>
+                    <td class="custom-text fs-5 fw-bold">
+                        Date Of Birth
+                    </td>
+                    @*<td class="custom-text fs-5 fw-bold">
+                        Admission Date
+                    </td>*@
+                </tr>
+                <tr>
+                    <td>
+                        @ViewBag.DateOfBirth
+                    </td>
+                    @*<td>
+                        @ViewBag.AdmissionDate
+                    </td>*@
+                </tr>
+                <tr>
+                    <td class="custom-text fs-5 fw-bold">
+                        Mobile
+                    </td>
+                    <td class="custom-text fs-5 fw-bold">
+                        Email
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Model.Mobile
+                    </td>
+                    <td>
+                        @Model.Email
+                    </td>
+                </tr>
+                <tr>
+                    <td class="custom-text fs-5 fw-bold">
+                        Gender
+                    </td>
+                    <td class="custom-text fs-5 fw-bold">
+                        Blood Group
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @ViewBag.GenderName
+                    </td>
+                    <td>
+                        @ViewBag.BloodGroup
+                    </td>
+                </tr>
+                <tr>
+                    <td class="custom-text fs-5 fw-bold">
+                        Disease
+                    </td>
+                    <td class="custom-text fs-5 fw-bold">
+                        Attendant Name
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Model.Disease
+                    </td>
+                    <td>
+                        @Model.AttendantName
+                    </td>
+                </tr>
+                <tr>
+                    <td class="custom-text fs-5 fw-bold">
+                        Attendant Mobile
+                    </td>
+                    <td class="custom-text fs-5 fw-bold">
+                        Attendant Email
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Model.AttendentMobile
+                    </td>
+                    <td>
+                        @Model.AttendentEmail
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <div class="row mt-2 custom-margin">
+                <div class="col-md-6">
+                    <a asp-action="PatientDetails" asp-controller="Doctor" class="btn btn-dark w-auto">Back</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+

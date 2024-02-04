@@ -1,0 +1,106 @@
+﻿@model IEnumerable<HospitalManagementSystem.ViewModel.DoctorsPatientsViewModel>
+@{
+    ViewData["Title"] = "OPDList";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+<head>
+    <style>
+        .custom-mt {
+            margin-top: 60px;
+        }
+
+        .custom-margin {
+            margin-left: 300px;
+        }
+
+        body {
+            background-image: url('/images/image3.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+    </style>
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-3">
+        </div>
+        @*<h3 style="text-align:center">Patient Details</h3>*@
+        <div class="col-md-6">
+            <div>
+                <h3 style="text-align:center">Appointments</h3>
+                <div class="hide">
+                    <table class="table table-hover table-borderless custom-mt" id="details">
+                        <thead>
+                            <tr>
+                                <th>PatientId</th>
+                                <th>PatientName</th>
+                                <th>DoctorName</th>
+                                <th>DepartmentName</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        @foreach (var items in Model)
+                        {
+                            <tbody>
+                                <tr>
+                                    <td id="patientId">
+                                        @Html.DisplayFor(modelitems => items.PatientId)
+                                    </td>
+                                    <td id="patientName">
+                                        @Html.DisplayFor(modelitems => items.PatientName)
+                                    </td>
+                                    <td id="doctorName">
+                                        @Html.DisplayFor(modelitems => items.DoctorName)
+                                    </td>
+                                    <td id="departmentName">
+                                        @Html.DisplayFor(modelitems => items.DepartmentName)
+                                    </td>
+                                    <td id="date">
+                                        @Html.DisplayFor(modelitems => items.Date)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelitems => items.Time)
+                                    </td>
+                                </tr>
+                            </tbody>
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div>
+                <form class="d-flex" autocomplete="off">
+                    <input class="form-control me-2" type="search" placeholder="Full Name" id="fullname">
+                    <button class="btn btn-outline-dark" type="button" id="searchbyname">Search</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    @section ValidationScripts{
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+        <script>
+            $(document).ready(function () {
+                //calling the click event once a button click done for searching
+                $("#searchbyname").on("click", function () {
+                    //capturing the name entered for searching
+                    var name = $("#fullname").val();
+                    //looping through each row in the table
+                    $("#details tbody tr").each(function () {
+                        var rowtext = $(this).text();
+                        //show or hide rows based on the search options
+                        $(this).toggle(rowtext.includes(name));
+                    });
+                    //console.log(name);
+
+                });
+            });
+        </script>
+    }
+</body>
+
+

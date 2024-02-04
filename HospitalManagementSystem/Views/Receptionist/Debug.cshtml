@@ -1,0 +1,118 @@
+﻿@*@model HospitalManagementSystem.Models.Patients*@
+@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityRole>
+@{
+    ViewData["Title"] = "Debug";
+    var baseURl = "https://localhost:44373/";
+}
+<body>
+    <h1>Debug</h1>
+    Successfully registered
+    @*@ViewBag.PatientId
+    <br />
+    @ViewBag.FullName
+    <br />
+    @ViewBag.Disease
+    <br />
+    @ViewBag.Doctor
+    <br />
+    @ViewBag.RoomNo
+    <br />
+    @ViewBag.Address
+    <br />
+    @ViewBag.City
+    <br />
+    @ViewBag.Country
+    <br />
+    @ViewBag.State
+    <br />
+    @ViewBag.DepartmentId
+    <br />
+    @ViewBag.DoctorId
+    <br />*@
+
+    @*Divide the body of page
+    <div class="row">
+    <div class="col-md-4">Debug</div>
+    <div class="col-md-4">Debug</div>
+    <div class="col-md-4">Debug</div>
+    </div>*@
+
+    @*Drop down demo
+    <div class="row form-group">
+
+        <div class="col-md-2">
+            <label asp-for="DepartmentId" class="control-label"></label>
+        </div>
+        <div class="col-md-4">
+            <select asp-for="DepartmentId" class="form-control" asp-items="ViewBag.departmentDetails" 
+            id="DepartmentId">
+            </select>
+        </div>
+
+        <div class="col-md-2">
+            <label asp-for="UserId" class="control-label"></label>
+        </div>
+        <div class="col-md-4">
+            <select asp-for="UserId" class="form-control" asp-items="ViewBag.doctorDetails" id="DoctorId">
+            </select>
+        </div>
+
+        <div class="col-md-2">
+            <label asp-for="GId" class="control-label"></label>
+        </div>
+        <div class="col-md-4">
+            <select asp-for="GId" class="form-control" asp-items="ViewBag.genderDetails">
+            </select>
+        </div>
+
+        <div class="col-md-2">
+            <label asp-for="BId" class="control-label"></label>
+        </div>
+        <div class="col-md-4">
+            <select asp-for="BId" class="form-control" asp-items="ViewBag.bloodGroupDetails">
+            </select>
+        </div>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function(){
+
+            //we have the id value for department selection list and called the change() event function of jQuery
+            $("#DepartmentId").change(function(){
+
+                //capture the current selected department value in a variable
+                var departmentId = $(this).val();
+                var url = "@baseURl";
+
+                //used a ajax post request to route to control action method and capture the doctors data based on department selected
+                $.post(url + "Doctor/GetDoctorsByDepartment", {DepartmentId: departmentId}, function(data){
+
+                    //called the empty() function JQuery with the selected Id to empty the previous doctors dropdown list
+                    $("#DoctorId").empty();
+                    $("#DoctorId").append("<option>--Select Doctors--</option>");
+                    //console.log(data);
+
+                    //iterating to each doctor records and appending to the select drop down
+                    $.each(data, function(index, row){
+                        //console.log(row.userId);
+                        //console.log(row.fullName);
+                        $("#DoctorId").append("<option value='" + row.userId + "'>" + row.fullName + "</option>");
+                    });
+
+                    //if no doctors are available for the department, it will show No Doctors Found in drop down
+                    if(data.length == 0){
+                        $("#DoctorId").append("<option value=''>No Doctors Found</option>");
+                    }
+                });
+            });
+        });
+    </script>*@
+    @*@if (Model.Any())
+    {
+        @foreach (var items in Model)
+        {
+            <h3>@items.Name</h3>
+        }
+    }*@
+</body>
